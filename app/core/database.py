@@ -42,9 +42,10 @@ def _init_oracle_client_if_needed() -> None:
 	if _ORACLE_CLIENT_INITIALIZED:
 		return
 
-	# Thin-mode oracledb doesn't require client initialization.
 	if _ORACLE_DBAPI_NAME == "oracledb" and not settings.oracle_client_lib_dir:
-		return
+		raise RuntimeError(
+			"ORACLE_CLIENT_LIB_DIR is required for Oracle 11g because python-oracledb thin mode is not supported."
+		)
 
 	init_kwargs = {}
 	if settings.oracle_client_lib_dir:
@@ -76,6 +77,9 @@ DATABASE_URL = URL.create(
 	port=settings.oracle_db_port,
 	query={"service_name": settings.oracle_db_service_name or ""},
 )
+
+# 반드시 엔진 생성 전에 thick client 초기화
+_init_oracle_client_if_needed()
 
 engine = create_engine(
 	DATABASE_URL,
