@@ -105,3 +105,112 @@ class AdminRequiredException(AppException):
 			message="관리자 권한이 필요합니다.",
 			status_code=status.HTTP_403_FORBIDDEN,
 		)
+
+
+# ── Book ─────────────────────────────────────────────────────────────────────
+
+class BookNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOK_NOT_FOUND",
+			message="책을 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+# ── BookCopy ──────────────────────────────────────────────────────────────────
+
+class BookCopyNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOK_COPY_NOT_FOUND",
+			message="책 복본을 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+class BookCopyForbiddenException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOK_COPY_FORBIDDEN",
+			message="본인 소유의 책 복본이 아닙니다.",
+			status_code=status.HTTP_403_FORBIDDEN,
+		)
+
+
+class BookCopyDeleteConflictException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOK_COPY_DELETE_CONFLICT",
+			message="대여 중이거나 대여 요청된 책은 삭제할 수 없습니다.",
+			status_code=status.HTTP_409_CONFLICT,
+		)
+
+
+# ── ReadingLog ────────────────────────────────────────────────────────────────
+
+class ReadingLogNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="READING_LOG_NOT_FOUND",
+			message="독서 기록을 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+class ReadingLogForbiddenException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="READING_LOG_FORBIDDEN",
+			message="본인의 독서 기록이 아닙니다.",
+			status_code=status.HTTP_403_FORBIDDEN,
+		)
+
+
+# ── Wishlist ──────────────────────────────────────────────────────────────────
+
+class WishlistNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="WISHLIST_NOT_FOUND",
+			message="위시리스트 항목을 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+class WishlistForbiddenException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="WISHLIST_FORBIDDEN",
+			message="본인의 위시리스트 항목이 아닙니다.",
+			status_code=status.HTTP_403_FORBIDDEN,
+		)
+
+
+class WishlistDuplicateException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="WISHLIST_DUPLICATE",
+			message="이미 위시리스트에 추가된 책입니다.",
+			status_code=status.HTTP_409_CONFLICT,
+		)
+
+
+# ── Bookmark ──────────────────────────────────────────────────────────────────
+
+class BookmarkNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOKMARK_NOT_FOUND",
+			message="책갈피를 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+class BookmarkForbiddenException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOKMARK_FORBIDDEN",
+			message="본인의 책갈피가 아닙니다.",
+			status_code=status.HTTP_403_FORBIDDEN,
+		)
