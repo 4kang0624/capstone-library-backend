@@ -9,15 +9,11 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from app.core.config import settings
 
 try:
-	import cx_Oracle as oracle_dbapi
-	_ORACLE_DBAPI_NAME = "cx_Oracle"
+	import oracledb as oracle_dbapi
+	_ORACLE_DBAPI_NAME = "oracledb"
 except ImportError:
-	try:
-		import oracledb as oracle_dbapi
-		_ORACLE_DBAPI_NAME = "oracledb"
-	except ImportError:
-		oracle_dbapi = None
-		_ORACLE_DBAPI_NAME = None
+	oracle_dbapi = None
+	_ORACLE_DBAPI_NAME = None
 
 
 _ORACLE_CLIENT_INITIALIZED = False
