@@ -10,7 +10,7 @@ class BookCopyConditionStatus(str, Enum):
 
 
 class BookCopyCurrentStatus(str, Enum):
-	"""대여 진행 상태"""
+	"""책 상태"""
 
 	AVAILABLE = "AVAILABLE"
 	REQUESTED = "REQUESTED"
