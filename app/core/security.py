@@ -31,10 +31,14 @@ def verify_token_hash(token: str, token_hash: str) -> bool:
 
 
 # JWT 토큰 관련 함수
-SECRET_KEY = os.getenv("SECRET_KEY", "secret-key")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-REFRESH_TOKEN_EXPIRE_DAYS = 7
+SECRET_KEY = os.getenv("JWT_SECRET_KEY") or os.getenv("SECRET_KEY", "secret-key")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(
+	os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES") or os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "30")
+)
+REFRESH_TOKEN_EXPIRE_DAYS = int(
+	os.getenv("REFRESH_TOKEN_EXPIRE_DAYS") or os.getenv("JWT_REFRESH_TOKEN_EXPIRE_DAYS", "7")
+)
 
 
 def create_access_token(data: dict[str, Any], expires_delta: timedelta | None = None) -> str:

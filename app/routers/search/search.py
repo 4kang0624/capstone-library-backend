@@ -1,10 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
-from app.integrations.naver_book_client import (
-	NaverBookRequestError,
-	NaverBookTimeoutError,
-	create_naver_book_client_from_settings,
-)
+from app.integrations.naver_book_client import NaverBookRequestError, NaverBookTimeoutError
+from app.services.search_service import SearchService
 
 router = APIRouter(prefix="/search", tags=["Search"])
 
@@ -22,8 +19,7 @@ def _raise_search_http_exception(exc: Exception) -> None:
 @router.get("/books")
 def search_books(keyword: str = Query(..., min_length=1)) -> dict:
 	try:
-		client = create_naver_book_client_from_settings()
-		return client.search_by_keyword(keyword=keyword)
+		return SearchService.search_by_keyword(keyword)
 	except Exception as exc:
 		_raise_search_http_exception(exc)
 
@@ -31,7 +27,6 @@ def search_books(keyword: str = Query(..., min_length=1)) -> dict:
 @router.get("/books/isbn/{isbn}")
 def search_books_by_isbn(isbn: str) -> dict:
 	try:
-		client = create_naver_book_client_from_settings()
-		return client.search_by_isbn(isbn=isbn)
+		return SearchService.search_by_isbn(isbn)
 	except Exception as exc:
 		_raise_search_http_exception(exc)

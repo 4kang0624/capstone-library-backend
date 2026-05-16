@@ -214,3 +214,50 @@ class BookmarkForbiddenException(AppException):
 			message="본인의 책갈피가 아닙니다.",
 			status_code=status.HTTP_403_FORBIDDEN,
 		)
+
+
+# ── Rental ────────────────────────────────────────────────────────────────────
+
+class RentalNotFoundException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="RENTAL_NOT_FOUND",
+			message="대여 정보를 찾을 수 없습니다.",
+			status_code=status.HTTP_404_NOT_FOUND,
+		)
+
+
+class RentalForbiddenException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="RENTAL_FORBIDDEN",
+			message="해당 대여에 접근 권한이 없습니다.",
+			status_code=status.HTTP_403_FORBIDDEN,
+		)
+
+
+class RentalStatusConflictException(AppException):
+	def __init__(self, message: str = "현재 대여 상태에서는 해당 작업을 수행할 수 없습니다.") -> None:
+		super().__init__(
+			code="RENTAL_STATUS_CONFLICT",
+			message=message,
+			status_code=status.HTTP_409_CONFLICT,
+		)
+
+
+class BookCopyNotAvailableException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="BOOK_COPY_NOT_AVAILABLE",
+			message="해당 책 복본은 현재 대여할 수 없습니다.",
+			status_code=status.HTTP_409_CONFLICT,
+		)
+
+
+class WalletNotConnectedException(AppException):
+	def __init__(self) -> None:
+		super().__init__(
+			code="WALLET_NOT_CONNECTED",
+			message="지갑이 연결되어 있지 않습니다.",
+			status_code=status.HTTP_400_BAD_REQUEST,
+		)

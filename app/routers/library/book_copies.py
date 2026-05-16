@@ -26,6 +26,16 @@ def create_book_copy(
 	)
 
 
+@router.get("", response_model=list[BookCopyResponse])
+def get_book_copies_by_book(
+	book_id: int,
+	current_user: User = Depends(get_current_user),
+	db: Session = Depends(get_db),
+) -> list[dict]:
+	"""사용자 복본 목록 (book_id 필터 필수)"""
+	return BookCopyService.get_copies_by_book(db=db, book_id=book_id)
+
+
 @router.get("/me", response_model=list[BookCopyResponse])
 def get_my_book_copies(
 	current_user: User = Depends(get_current_user),

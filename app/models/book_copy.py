@@ -35,6 +35,7 @@ class BookCopy(Base):
 	is_available_for_rent = Column(Integer, default=0, nullable=False)
 	current_status = Column(VARCHAR(30), default=BookCopyCurrentStatus.AVAILABLE.value, nullable=False)
 	memo = Column(String(500), nullable=True)
+	deleted_at = Column(DateTime, nullable=True)
 	created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 	updated_at = Column(
 		DateTime,

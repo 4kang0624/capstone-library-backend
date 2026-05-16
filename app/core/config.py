@@ -48,6 +48,15 @@ class Settings:
 	oracle_db_user: str | None
 	oracle_db_password: str | None
 	oracle_client_lib_dir: str | None
+	# JWT
+	secret_key: str
+	jwt_access_token_expire_minutes: int
+	jwt_refresh_token_expire_days: int
+	# File uploads
+	upload_dir: str
+	# Blockchain
+	contract_address: str | None
+	chain_id: int
 
 	@classmethod
 	def from_env(cls) -> "Settings":
@@ -61,6 +70,12 @@ class Settings:
 			oracle_db_user=os.getenv("ORACLE_DB_USER"),
 			oracle_db_password=os.getenv("ORACLE_DB_PASSWORD"),
 			oracle_client_lib_dir=os.getenv("ORACLE_CLIENT_LIB_DIR"),
+			secret_key=os.getenv("SECRET_KEY", "secret-key"),
+			jwt_access_token_expire_minutes=_to_int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES"), 30),
+			jwt_refresh_token_expire_days=_to_int(os.getenv("JWT_REFRESH_TOKEN_EXPIRE_DAYS"), 7),
+			upload_dir=os.getenv("UPLOAD_DIR", "app/uploads"),
+			contract_address=os.getenv("CONTRACT_ADDRESS"),
+			chain_id=_to_int(os.getenv("CHAIN_ID"), 1),
 		)
 
 	def validate_naver(self) -> None:
@@ -68,6 +83,10 @@ class Settings:
 			raise ValueError("NAVER_CLIENT_ID is required")
 		if not self.naver_client_secret:
 			raise ValueError("NAVER_CLIENT_SECRET is required")
+
+	def validate_blockchain(self) -> None:
+		if not self.contract_address:
+			raise ValueError("CONTRACT_ADDRESS is required")
 
 
 _load_env_file()

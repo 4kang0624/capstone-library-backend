@@ -51,6 +51,11 @@ class BookCopyService:
 		return [BookCopyService._with_book(db, c) for c in copies]
 
 	@staticmethod
+	def get_copies_by_book(db: Session, book_id: int) -> list[dict]:
+		copies = BookCopyRepository.get_by_book(db, book_id)
+		return [BookCopyService._with_book(db, c) for c in copies]
+
+	@staticmethod
 	def get_rentable_copies(db: Session) -> list[dict]:
 		copies = BookCopyRepository.get_rentable(db)
 		return [BookCopyService._with_book(db, c) for c in copies]
@@ -100,4 +105,7 @@ class BookCopyService:
 			BookCopyCurrentStatus.RENTED.value,
 		):
 			raise BookCopyDeleteConflictException()
-		BookCopyRepository.delete(db, copy)
+		if BookCopyRepository.has_rental_history(db, copy_id):
+			BookCopyRepository.soft_delete(db, copy_id)
+		else:
+			BookCopyRepository.delete(db, copy)
